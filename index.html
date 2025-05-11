@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cetak Kartu Siswa MI Asy-Syafi'iyyah 02</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      padding: 20px;
+      background: linear-gradient(135deg, #e0f7fa, #fff);
+      position: relative;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: inline-block;
+    }
+    input, textarea {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #bbb;
+      transition: 0.3s;
+    }
+    input:focus, textarea:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0,123,255,0.2);
+    }
+    .card, .back-card {
+      width: 850px;
+      height: 500px;
+      position: relative;
+      background-size: cover;
+      margin: 20px auto;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+    }
+    
+.card {
+  background-image: url('kartu-depan.jpg'); /* Gunakan file kartu yang kamu upload */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  width: 900px;
+  height: 570px;
+  border-radius: 12px;
+  margin: auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+.card-photo {
+  position: absolute;
+  top: 180px;
+  left: 80px;
+  width: 180px;
+  height: 230px;
+  object-fit: cover;
+  border: 2px solid #1f6f5d;
+  border-radius: 8px;
+}
+.card-content {
+  position: absolute;
+  top: 170px;
+  left: 300px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #000;
+}
+.qr-code {
+  position: absolute;
+  bottom: 100px;
+  left: 100px;
+  width: 100px;
+}
+.cetak-info {
+  position: absolute;
+  bottom: 60px;
+  right: 80px;
+  text-align: center;
+  font-size: 14px;
+  color: #000;
+}
+.ttd {
+  width: 100px;
+  margin-top: 5px;
+}
+
+.back-card {
+      background-image: url('belakang.jpg');
+    }
+    .card-content {
+      position: absolute;
+      top: 140px;
+      left: 300px;
+      font-size: 18px;
+      line-height: 1.6;
+      color: #000;
+    }
+    .card-photo {
+      position: absolute;
+      top: 130px;
+      left: 60px;
+      width: 200px;
+      height: 250px;
+      border: 2px solid #1f6f5d;
+      background: #eee;
+      object-fit: cover;
+    }
+    .qr-code {
+      position: absolute;
+      bottom: 100px;
+      left: 320px;
+      width: 120px;
+    }
+    .ttd {
+      position: absolute;
+      bottom: 60px;
+      right: 80px;
+      width: 100px;
+    }
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .watermark-page {
+      position: fixed;
+      bottom: 10px;
+      right: 20px;
+      font-size: 13px;
+      color: rgba(0, 0, 0, 0.4);
+      font-style: italic;
+      z-index: 100;
+    }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Cetak Kartu Siswa MI Asy-Syafi'iyyah 02</h1>
+
+    <label>Nama Siswa</label>
+    <input type="text" id="nama">
+
+    <label>Nomor NISN</label>
+    <input type="text" id="nisn">
+
+    <label>Tempat, Tanggal Lahir</label>
+    <input type="text" id="ttl">
+
+    <label>Jenis Kelamin</label>
+    <input type="text" id="jk">
+
+    <label>Alamat</label>
+    <textarea id="alamat"></textarea>
+
+    <label>Foto Siswa</label>
+    <input type="file" id="foto" accept="image/*">
+
+    <label>Tanda Tangan Kepala Madrasah</label>
+    <input type="file" id="ttd" accept="image/*">
+
+    <div class="btn-group">
+      <button onclick="updateCard()">Tampilkan Kartu</button>
+      <button onclick="downloadAsImage()">Download Gambar</button>
+      <button onclick="downloadAsPDF()">Download PDF</button>
+    </div>
+
+    <div id="card-area">
+      
+<div class="card" id="card">
+  <img id="fotoSiswa" class="card-photo">
+  <div class="card-content">
+    <div>Nama: <span id="v_nama"></span></div>
+    <div>NISN: <span id="v_nisn"></span></div>
+    <div>TTL: <span id="v_ttl"></span></div>
+    <div>Jenis Kelamin: <span id="v_jk"></span></div>
+    <div>Alamat: <span id="v_alamat"></span></div>
+  </div>
+  <img id="qrImage" class="qr-code">
+  <div class="cetak-info">
+    Jatibarang, <span id="tanggalCetak"></span><br>
+    Kepala Madrasah
+    <br><img id="ttdImg" class="ttd">
+    <br><span id="namaKepala">Nama Kepala</span>
+  </div>
+</div>
+
+<div class="back-card" id="card-back"></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    function updateCard() {
+      const nama = document.getElementById('nama').value;
+      const nisn = document.getElementById('nisn').value;
+      const ttl = document.getElementById('ttl').value;
+      const jk = document.getElementById('jk').value;
+      
+const alamat = document.getElementById('alamat').value;
+document.getElementById('tanggalCetak').innerText = new Date().toLocaleDateString('id-ID');
+document.getElementById('namaKepala').innerText = "Ust. Ahmad"; // Ganti jika ingin dinamis
+
+
+      document.getElementById('v_nama').innerText = nama;
+      document.getElementById('v_nisn').innerText = nisn;
+      document.getElementById('v_ttl').innerText = ttl;
+      document.getElementById('v_jk').innerText = jk;
+      document.getElementById('v_alamat').innerText = alamat;
+
+      const foto = document.getElementById('foto').files[0];
+      if (foto) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          document.getElementById('fotoSiswa').src = e.target.result;
+        };
+        reader.readAsDataURL(foto);
+      }
+
+      const ttd = document.getElementById('ttd').files[0];
+      if (ttd) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          document.getElementById('ttdImg').src = e.target.result;
+        };
+        reader.readAsDataURL(ttd);
+      }
+
+      const qrLink = `https://api.qrserver.com/v1/create-qr-code/?data=https://referensi.data.kemdikbud.go.id/nisn/detail/${nisn}&size=120x120`;
+      document.getElementById('qrImage').src = qrLink;
+    }
+
+    function downloadAsImage() {
+      html2canvas(document.getElementById('card-area')).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'kartu_siswa.png';
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    }
+
+    async function downloadAsPDF() {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ orientation: 'landscape', unit: 'px', format: [850, 1000] });
+      const canvas = await html2canvas(document.getElementById('card-area'));
+      const imgData = canvas.toDataURL('image/png');
+      pdf.addImage(imgData, 'PNG', 10, 10);
+      pdf.save('kartu_siswa.pdf');
+    }
+  </script>
+<div class="watermark-page">Dibuat oleh Galeri Famous</div>
+</body>
+</html>
